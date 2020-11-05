@@ -3,6 +3,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const config = require('./config/database');
 const router = require('./routes');
+const bodyParser = require('body-parser');
+const express_session = require('express-session');
 
 
 //connect to db
@@ -18,8 +20,25 @@ const app = express();
 app.set('views', path.join(__dirname,'views'));
 app.set('view engine','ejs');
 
+//Add Middleware
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+ 
+// parse application/json
+app.use(bodyParser.json());
+
+//Add Middleware express-session
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+  }))
+
 //Set public static
 app.use(express.static(path.join(__dirname,'public')));
+
+
 
 //Set router
 router(app);

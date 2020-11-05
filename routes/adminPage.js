@@ -7,4 +7,6 @@ router.get('/',(req,res)=> res.render('adminPage',{
     title: 'Admin Page'
 }))
 
+router.get('/test',(req,res)=> res.send('Admin test'));
+
 module.exports = router;
