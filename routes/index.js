@@ -1,4 +1,3 @@
-const { render } = require('ejs');
 const pageRouter = require('./pages');
 const adminRouter =require('./adminPage');
 

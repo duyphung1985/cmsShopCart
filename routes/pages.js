@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const pageController = require('../controllers/pageController');
 
-router.get('/',(req,res)=> res.render('index', {
-    title: 'Home'
-}))
+router.get('/',pageController.showPage)
 
-router.get('/test',(req,res)=> res.send('Page test'))
+router.get('/test',pageController.test);
 
 
 

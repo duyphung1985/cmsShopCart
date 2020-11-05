@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const config = require('./config/database');
 const router = require('./routes');
 const bodyParser = require('body-parser');
-const express_session = require('express-session');
+const session = require('express-session');
 
 
 //connect to db
