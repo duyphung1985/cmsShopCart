@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const controllerAdmin = require("../controllers/adminController");
 const { check, resultValidation } = require("express-validator");
+const { route } = require("./pages");
+
+router.get('/edit-page/:slug',controllerAdmin.editPage);
 
 router.get("/", controllerAdmin.showPage);
 
@@ -10,10 +13,12 @@ router.get("/add-page", controllerAdmin.addPage);
 router.post(
   "/add-page",
   [
-    check("title", "Title tối thiểu 5 ký tự").isLength({ min: 5 }),
-    check("content", "Content không được để trống").isEmpty(),
+    check("title", "Title tối thiểu 5 ký tự").isLength({ min: 4 }),
+    check("content", "Content không được để trống").notEmpty(),
   ],
   controllerAdmin.savePage
 );
+
+
 
 module.exports = router;

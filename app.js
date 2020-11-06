@@ -5,6 +5,7 @@ const config = require('./config/database');
 const router = require('./routes');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 
 //connect to db
@@ -35,9 +36,18 @@ app.use(session({
     cookie: { secure: true }
   }))
 
+//Express messages middleware
+app.use(flash());
+app.use(function (req, res, next) {
+  res.locals.messages = require('express-messages')(req, res);
+  next();
+});
+
 //Set public static
 app.use(express.static(path.join(__dirname,'public')));
 
+//Set bien global local
+app.locals.errors = null;
 
 
 //Set router
