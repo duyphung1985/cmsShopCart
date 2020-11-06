@@ -30,6 +30,9 @@ router.post(
   controllerAdmin.savePage
 );
 
+//Get Delete Page
+router.get('/delete-page/:id',controllerAdmin.deletePage);
+
 
 
 module.exports = router;

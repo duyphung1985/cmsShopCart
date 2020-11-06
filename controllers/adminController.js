@@ -66,7 +66,7 @@ class adminController {
           page.save(function (err) {
             if (err) return console.log(err);
             req.flash("success", "Page added!");
-            res.render("admin/show_page");
+            res.render("admin/show_page", { title: "Show Page" });
           });
         }
       });
@@ -115,6 +115,16 @@ class adminController {
         }
       );
     }
+  }
+
+  //GET DELETE PAGE
+  deletePage(req, res) {
+    let id = req.params.id;
+    console.log(req.params.slug);
+    Page.findByIdAndRemove(id, function (err) {
+      req.flash("success", "Delete Page Success!!");
+      res.redirect("/admin/pages");
+    });
   }
 }
 module.exports = new adminController();
