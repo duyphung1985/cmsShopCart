@@ -31,7 +31,7 @@ app.use(bodyParser.json());
 //Add Middleware express-session
 app.use(session({
     secret: 'keyboard cat',
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: { secure: true }
   }))

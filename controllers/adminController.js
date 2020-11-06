@@ -66,7 +66,7 @@ class adminController {
           page.save(function (err) {
             if (err) return console.log(err);
             req.flash("success", "Page added!");
-            res.redirect("/admin/pages/add-page");
+            res.render("admin/show_page");
           });
         }
       });
@@ -75,14 +75,46 @@ class adminController {
 
   //GET Edit Page
   editPage(req, res) {
-    console.log(req.params.slug)
+    console.log(req.params.slug);
     Page.findOne({ slug: req.params.slug }, function (err, data) {
       console.log(data);
       res.render("admin/edit_page", {
         title: "Edit Page",
-        data
+        data,
       });
     });
+  }
+
+  //POST Update Page
+  updatePage(req, res) {
+    let data = new Page({
+      title: req.body.title,
+      slug: req.body.slug,
+      content: req.body.content,
+    });
+    let id = req.body._id;
+    console.log(errors);
+
+    var errors = validationResult(req).array();
+    if (errors.length > 0) {
+      res.render("admin/edit_page", {
+        title: "Add new page",
+        data,
+        errors,
+      });
+    } else {
+      Page.findByIdAndUpdate(
+        { _id: id },
+        {
+          title: req.body.title,
+          slug: req.body.slug == "" ? slug1(req.body.title) : req.body.slug,
+          content: req.body.content,
+        },
+        function (err, page) {
+          res.redirect("/admin/pages");
+        }
+      );
+    }
   }
 }
 module.exports = new adminController();

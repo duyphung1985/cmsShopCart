@@ -6,6 +6,17 @@ const { route } = require("./pages");
 
 router.get('/edit-page/:slug',controllerAdmin.editPage);
 
+router.post(
+  "/edit-page/:slug",
+  [
+    check("title", "Title tối thiểu 5 ký tự").isLength({ min: 4 }),
+    check("content", "Content không được để trống").notEmpty(),
+  ],
+  controllerAdmin.updatePage
+);
+
+
+
 router.get("/", controllerAdmin.showPage);
 
 router.get("/add-page", controllerAdmin.addPage);
