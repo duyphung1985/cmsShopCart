@@ -33,7 +33,6 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
   }))
 
 //Express messages middleware
