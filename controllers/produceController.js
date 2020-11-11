@@ -3,6 +3,7 @@ const Produce = require('../models/product');
 const Category = require('../models/category');
 const { validationResult } = require('express-validator');
 const slug1 = require('slug');
+const sharp = require('sharp');
 
 
 class produceController {
@@ -52,23 +53,39 @@ class produceController {
         let slug = req.body.slug == "" ? slug1(req.body.slug): req.body.slug;
         let desc = req.body.desc;
         let cat = req.body.cat;
-        let img = req.body.img
+        let img = req.file.filename;
+        
         Category.find(function(err,cat){
+           
             if(errors.length > 0 ){
                 res.render('admin/add_produce',{
                     title, price, slug, desc, img, cat, errors
                 })
             } else {
-                Produce.find(function(err,produce){
+                Produce.find({slug: slug},function(err,produce){
                     if(produce.length > 0){
                         req.flash('warning','Produce Existing!!!');
                         res.render('admin/add_produce',{
                             title, price, slug, desc, img, cat
                         })
                     } else {
-                        
-                                res.json(req.files)
-                       
+                        sharp(req.file.path)
+                        .resize(60)
+                        .toFile('./public/thums/' + req.file.filename);
+                        var pro = new Produce({
+                            title: title,
+                            price: price,
+                            slug: slug,
+                            desc: desc,
+                            image: img,
+                            category: req.body.category
+                        })
+                      
+                        pro.save(function(err){
+                            console.log(err);
+                        });
+                        req.flash('success','Add Product Success!!!');
+                        res.redirect('/admin/produce')
                     }
                    
                 })

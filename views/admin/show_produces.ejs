@@ -26,14 +26,14 @@
         <% if(pro.image===""){%>
           <img src="/images/No_Image.png" alt="No Image">
         <%} else{%>
-          <img src="/produce_images/<%= pro._id%>/<%=pro.image %>" alt="No Image">
+          <img src="/thums/<%=pro.image %>" alt="No Image">
         <%} %>
       </td>
       <td><a href="/admin/produce/edit-produce/<%= pro.slug %>">Edit</a></td>
       <td>
-        <% if(cat.slug !== 'home'){%>
+       
         <a onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"  href="/admin/produce/delete-produce/<%= pro._id %>">Delete</a>
-        <%}%>
+    
       </td>
     </tr>
     <%})%> <%}%>

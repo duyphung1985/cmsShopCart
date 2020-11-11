@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 
 const storage = multer.diskStorage({
-  destination: "./public/produce_images/",
+  destination: "./public/produce_images",
   filename: function (req, file, callback) {
     callback(
       null,
@@ -16,8 +16,7 @@ const fileFilter = function (req, file, callback) {
   if (ext !== ".png" && ext !== ".jpg" && ext !== ".gif" && ext !== ".jpeg") {
     return callback(null, false);
   }
-
-  callback(file, true);
+  return callback(null, true);
 };
 
 const upload = multer({

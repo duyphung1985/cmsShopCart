@@ -6,7 +6,7 @@ const router = require('./routes');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
-const fileUpload = require('express-fileupload');
+
 const expressValidator = require('express-validator');
 
 
@@ -44,16 +44,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-
 //Set public static
 app.use(express.static(path.join(__dirname,'public')));
 
 //Set bien global local
 app.locals.errors = null;
-
-//Express Uploadfile middleware
-app.use(fileUpload());
-
 
 //Set router
 router(app);
