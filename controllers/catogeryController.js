@@ -84,6 +84,17 @@ class categoryController {
       }
      
   }
+  removeCategory(req,res){
+      let id = req.params.id;
+      Category.findOneAndRemove({_id: id},function(err){
+          if(err){
+              console.log(err);
+          } else {
+              req.flash('success',"Delete Category Successfully!!!");
+              res.redirect('/admin/category');
+          }
+      })
+  }
 
 
 

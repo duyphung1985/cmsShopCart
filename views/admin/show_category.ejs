@@ -19,7 +19,7 @@
       <td><a href="/admin/category/edit-category/<%= cat.slug %>">Edit</a></td>
       <td>
         <% if(cat.slug !== 'home'){%>
-        <a href="/admin/category/delete-category/<%= cat._id %>">Delete</a>
+        <a onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"  href="/admin/category/delete-category/<%= cat._id %>">Delete</a>
         <%}%>
       </td>
     </tr>

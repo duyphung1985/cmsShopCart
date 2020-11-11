@@ -19,7 +19,7 @@
       <td><a href="/admin/pages/edit-page/<%= p.slug %>">Edit</a></td>
       <td>
         <% if(p.slug !== 'home'){%>
-        <a href="/admin/pages/delete-page/<%= p._id %>">Delete</a>
+        <a onclick="return confirm('Bạn có chắc chắn muốn xóa không?')" href="/admin/pages/delete-page/<%= p._id %>">Delete</a>
         <%}%>
       </td>
     </tr>

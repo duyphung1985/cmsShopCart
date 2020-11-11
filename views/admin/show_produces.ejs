@@ -1,0 +1,48 @@
+<%- include('../layouts/adminheader')%>
+
+<h2 class="page-title">Produce</h2>
+<a class="btn btn-primary" href="/admin/produce/add-produce">Add a new Produce</a>
+<br /><br />
+
+<% if( count > 0 ){ %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price</th>
+      <th>Category</th>
+      <th>Product Image</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if(typeof produce != 'undefined'){%> <% produce.forEach(function(pro){%>
+    <tr>
+      <td><%= pro.title %></td>
+      <td><%= pro.price %></td>
+      <td><%= pro.category %></td>
+      <td>
+        <% if(pro.image===""){%>
+          <img src="/images/No_Image.png" alt="No Image">
+        <%} else{%>
+          <img src="/produce_images/<%= pro._id%>/<%=pro.image %>" alt="No Image">
+        <%} %>
+      </td>
+      <td><a href="/admin/produce/edit-produce/<%= pro.slug %>">Edit</a></td>
+      <td>
+        <% if(cat.slug !== 'home'){%>
+        <a onclick="return confirm('Bạn có chắc chắn muốn xóa không?')"  href="/admin/produce/delete-produce/<%= pro._id %>">Delete</a>
+        <%}%>
+      </td>
+    </tr>
+    <%})%> <%}%>
+  </tbody>
+</table>
+<%} else { %>
+  <h3 class="text-center">There Are No Products</h3>
+<%}%>
+
+
+
+<%- include('../layouts/adminfooter')%>
