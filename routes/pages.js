@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const pageController = require('../controllers/pageController');
 
-router.get('/',pageController.showPage)
+router.get('/',function(req,res){
+    res.render('index',
+    {
+        title: "Home"
+    });
+})
 
-router.get('/test',pageController.test);
+router.get('/test',function(req,res){
+    res.send('Test');
+})
 
-
-
+//Exports
 module.exports = router;

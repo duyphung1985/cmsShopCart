@@ -2,58 +2,90 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const config = require('./config/database');
-const router = require('./routes');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const flash = require('connect-flash');
-
 const expressValidator = require('express-validator');
 
+//Connect to db
+const connectionParams={
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true 
+}
+mongoose.connect(config.database,connectionParams)
+    .then( () => {
+        console.log('Connected to database ')
+    })
+    .catch( (err) => {
+        console.error(`Error connecting to the database. \n${err}`);
+    })
 
-//connect to db
-mongoose.connect(config.database, {useNewUrlParser: true, useUnifiedTopology: true});
-const db = mongoose.connection;
-db.on('error', console.error.bind(console,'Connection failure'));
-db.once('open',() => console.log('Connection successfully!!!'));
 
-//Init App
+//Init app
 const app = express();
 
 //View engine setup
-app.set('views', path.join(__dirname,'views'));
+app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 
-//Add Middleware
+//Set public folder
+app.set(express.static(path.join(__dirname,'public')));
+
+//Set global errors variable
+app.locals.errors = null;
+
+//Body Parser Middleware
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
  
 // parse application/json
 app.use(bodyParser.json());
 
-//Add Middleware express-session
+//Express Session Middleware
 app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-  }))
+    cookie: { secure: true }
+  }));
 
-//Express messages middleware
-app.use(flash());
+//Express Validator Middleware
+  app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+        , root    = namespace.shift()
+        , formParam = root;
+   
+      while(namespace.length) {
+        formParam += '[' + namespace.shift() + ']';
+      }
+      return {
+        param : formParam,
+        msg   : msg,
+        value : value
+      };
+    }
+  }));
+
+  //Express Message Middleware
+  app.use(require('connect-flash')());
 app.use(function (req, res, next) {
   res.locals.messages = require('express-messages')(req, res);
   next();
 });
 
-//Set public static
-app.use(express.static(path.join(__dirname,'public')));
-
-//Set bien global local
-app.locals.errors = null;
-
 //Set router
-router(app);
+const pages = require('./routes/pages');
+const adminPages = require('./routes/admin_pages');
+
+app.use('/admin/pages',adminPages);
+app.use('/',pages);
+
+
 
 
 //Start the server
-const port = 3333;
-app.listen(port,() => console.log('Server start on port' + port));
+const port = 3000;
+app.listen(port,function(){
+    console.log('Server started on port ' + port);
+})

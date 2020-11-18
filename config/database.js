@@ -1,3 +1,3 @@
 module.exports = {
-    database : "mongodb://localhost:27017/cmscart",
+    database: `mongodb+srv://duypn:P10@Pcsonla@cluster0.yktdj.mongodb.net/cmscart?retryWrites=true&w=majority`
 }

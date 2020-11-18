@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
-const pageSchema = new mongoose.Schema({
+
+//Page Schema
+const PageSchema = mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: true,
     },
     slug: {
         type: String,
     },
     content: {
-        type: String,
-        required: true
-    },
+        type:String,
+        required:true,
+    }, 
     sorting: {
-        type: Number,
+        type:Number,
     }
 })
 
-module.exports = mongoose.model('Page',pageSchema);
+module.exports = new mongoose.model('page', PageSchema);
