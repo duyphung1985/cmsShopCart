@@ -1,0 +1,20 @@
+<%- include('../_layouts/adminheader') %>
+
+<h2 class="page-title">Add new Category</h2>
+<a href="/admin/categories" class="btn btn-primary">Back to All Categories</a>
+
+<form action="/admin/categories/add-category" method="POST" class="form-group">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" class="form-control" value="<%= title %>" placeholder="Title">
+    </div>
+
+    <div class="form-group">
+        <label for="slug">Slug</label>
+        <input type="text" name="slug" id="slug" class="form-control" value="<%= slug %>" placeholder="Slug">
+    </div>
+
+    <input type="submit" value='submit' class="btn btn-primary"></input>
+</form>
+
+<%- include('../_layouts/adminfooter') %>

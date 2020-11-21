@@ -29,7 +29,7 @@ app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 
 //Set public folder
-app.set(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'public')));
 
 //Set global errors variable
 app.locals.errors = null;
@@ -46,7 +46,7 @@ app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    cookie: { secure: true }
+    // cookie: { secure: true }
   }));
 
 //Express Validator Middleware
@@ -77,7 +77,9 @@ app.use(function (req, res, next) {
 //Set router
 const pages = require('./routes/pages');
 const adminPages = require('./routes/admin_pages');
+const adminCategories = require('./routes/admin_categories');
 
+app.use('/admin/categories',adminCategories);
 app.use('/admin/pages',adminPages);
 app.use('/',pages);
 

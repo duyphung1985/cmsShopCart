@@ -1,0 +1,70 @@
+<%- include('../_layouts/adminheader')%>
+<h2 class="page-title">Pages</h2>
+<a href="/admin/pages/add-page" class="btn btn-primary">Add a new page</a>
+<br /><br />
+<table class="table table-striped">
+
+  <thead>
+    <tr class="home">
+      <th>Title</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+      <% pages.forEach(function(page){%>
+        <tr id="id_<%= page._id%>" class="<%= page.slug%>">
+          <td><%= page.title%></td>
+          <td><a href="/admin/pages/edit-page/<%= page.slug%>" >Edit</a></td>
+        <% if(page.slug !=="home"){%>
+           <td><a href="#" data-href="/admin/pages/delete-page/<%= page._id%>" data-toggle="modal" data-target="#deleteConfirm">Delete</a></td>
+        <%}%>
+        </tr>
+      <%})%>
+  </tbody>
+
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Delete Page</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       Bạn có chắc muốn xóa dữ liệu?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">No</button>
+        <a class="btn btn-danger btn-on">Yes</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+<script>
+  $('tbody').sortable({
+    items: "tr:not('.home')",
+    placeholder: "ui-state-hightlight",
+    update: function() {
+      var ids =  $('tbody').sortable("serialize");
+      var url = "admin/pages/reorder-pages";
+      $.post(url,ids)
+    }
+  });
+</script>
+<script>
+  $('#deleteConfirm').on('show.bs.modal	',function(e) {
+    let url = $(e.relatedTarget).data('href');
+    console.log(url);
+    $(this).find('.btn-on').attr('href',url)
+  })
+</script>
+
+<%- include('../_layouts/adminfooter')%>

@@ -18,4 +18,4 @@ const PageSchema = mongoose.Schema({
     }
 })
 
-module.exports = new mongoose.model('page', PageSchema);
+module.exports = mongoose.model('Page', PageSchema);
